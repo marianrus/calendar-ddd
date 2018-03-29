@@ -1,0 +1,14 @@
+App\Calendar\Domain\Model\Calendar:
+  type: entity
+  table: calendar
+
+  id:
+    calendarId:
+      type: uuid_binary
+
+  fields:
+    name:
+      type: string
+
+    description:
+      type: string

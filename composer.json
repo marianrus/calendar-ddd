@@ -4,6 +4,11 @@
     "require": {
         "php": "^7.1.3",
         "ext-iconv": "*",
+        "broadway/broadway": "^2.0",
+        "buttercup/protects": "dev-master",
+        "carlosbuenosvinos/ddd": "^1.6",
+        "ramsey/uuid": "^3.4",
+        "ramsey/uuid-doctrine": "^1.4",
         "sensio/framework-extra-bundle": "^5.1",
         "symfony/asset": "^4.0",
         "symfony/console": "^4.0",

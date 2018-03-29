@@ -1,0 +1,18 @@
+App\Calendar\Domain\Model\Event:
+  type: entity
+  table: event
+
+  id:
+    eventId:
+      type: uuid_binary
+
+  fields:
+    description:
+      type: string
+
+  manyToOne:
+    calendarId:
+      targetEntity: App\Calendar\Domain\Model\Calendar
+      joinColumn:
+        name: calendarId
+        referencedColumnName: calendarId
