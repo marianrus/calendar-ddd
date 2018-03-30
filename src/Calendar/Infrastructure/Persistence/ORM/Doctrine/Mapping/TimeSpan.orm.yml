@@ -1,0 +1,9 @@
+App\Calendar\Domain\Model\TimeSpan:
+  type: embeddable
+  fields:
+    begins:
+      type: datetime
+      column: begins
+    ends:
+      type: datetime
+      column: ends

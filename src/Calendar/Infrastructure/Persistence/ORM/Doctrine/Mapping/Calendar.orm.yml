@@ -1,14 +1,13 @@
 App\Calendar\Domain\Model\Calendar:
   type: entity
   table: calendar
-
   id:
     calendarId:
+      column: id
       type: uuid_binary
-
+  repositoryClass: App\Calendar\Domain\Repository\CalendarRepository
   fields:
     name:
       type: string
-
     description:
       type: string

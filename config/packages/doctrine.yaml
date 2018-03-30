@@ -40,6 +40,6 @@ doctrine:
             App:
                 is_bundle: false
                 type: yml
-                dir: '%kernel.project_dir%/src/Calendar/Infrastructure/Persistence/doctrine'
+                dir: '%kernel.project_dir%/src/Calendar/Infrastructure/Persistence/ORM/Doctrine/Mapping'
                 prefix: 'App\Calendar\Domain\Model'
                 alias: Domain

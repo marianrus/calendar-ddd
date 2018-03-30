@@ -1,0 +1,28 @@
+App\Calendar\Domain\Model\Event:
+  type: entity
+  table: events
+  id:
+    eventId:
+      type: uuid_binary
+      column: id
+  fields:
+    description:
+      type: string
+    location:
+      type: string
+    comment:
+      type: text
+  embedded:
+    timeSpan:
+      class: App\Calendar\Domain\Model\TimeSpan
+  manyToOne:
+    calendarId:
+      orphanRemoval: true
+      cascade: ["all"]
+      targetEntity: App\Calendar\Domain\Model\Calendar
+      joinTable:
+        name: events
+        joinColumns:
+          calendarId:
+            referecedColumnName: id
+
