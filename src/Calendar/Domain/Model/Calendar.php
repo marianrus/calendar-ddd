@@ -3,6 +3,7 @@
 namespace App\Calendar\Domain\Model;
 
 
+use App\Calendar\Domain\Service\CalendarIdentityService;
 use Webmozart\Assert\Assert;
 
 class Calendar
@@ -42,10 +43,27 @@ class Calendar
         return $aCalendar;
     }
 
+    public function scheduleCalendarEvent(
+        CalendarIdentityService $calendarIdentityService,
+        $description,
+        $location,
+        TimeSpan $span,
+        $comment
+    ){
+        return CalendarEvent::create(
+            $calendarIdentityService->nextCalendarEventId(),
+            $this->getCalendarId(),
+            $description,
+            $location,
+            $span,
+            $comment
+        );
+    }
+
     /**
-     * @return string
+     * @return CalendarId
      */
-    public function getCalendarId (): string
+    public function getCalendarId (): CalendarId
     {
         return $this->calendarId;
     }

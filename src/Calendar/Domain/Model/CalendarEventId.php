@@ -3,6 +3,6 @@
 namespace App\Calendar\Domain\Model;
 
 
-final class EventId extends AbstractId
+final class CalendarEventId extends AbstractId
 {
 }

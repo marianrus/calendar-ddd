@@ -4,12 +4,12 @@ namespace App\Calendar\Domain\Model;
 
 use Webmozart\Assert\Assert;
 
-class Event
+class CalendarEvent
 {
     /**
-     * @var EventId
+     * @var CalendarEventId
      */
-    private $eventId;
+    private $calendarEventId;
 
     /**
      * @var CalendarId
@@ -22,7 +22,7 @@ class Event
     private $description;
 
     /**
-     * @var static
+     * @var TimeSpan
      */
     private $timeSpan;
 
@@ -37,32 +37,35 @@ class Event
     private $comment;
 
     /**
-     * @param EventId $eventId
+     * @param CalendarEventId $eventId
      * @param CalendarId $calendarId
      * @param string $description
      * @param string $location
      * @param TimeSpan $timeSpan
      * @param $comment
-     * @return Event
+     * @return CalendarEvent
      */
-    public function create(
-        EventId $eventId,
+    public static function create(
+        CalendarEventId $eventId,
         CalendarId $calendarId,
         string $description,
         string $location,
         TimeSpan $timeSpan,
         $comment
-    ) : Event
+    ) : CalendarEvent
     {
         Assert::notEmpty($description);
         Assert::maxLength(100, 'Description length must not exceed 100');
+        
+        $event = new self();
+        $event->calendarEventId = $eventId;
+        $event->calendarId = $calendarId;
+        $event->description = $description;
+        $event->timeSpan = $timeSpan;
+        $event->location = $location;
+        $event->comment = $comment;
 
-        $this->eventId = $eventId;
-        $this->calendarId = $calendarId;
-        $this->description = $description;
-        $this->timeSpan = $timeSpan;
-        $this->location = $location;
-        $this->comment = $comment;
+        return $event;
     }
 
 
