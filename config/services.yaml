@@ -23,6 +23,43 @@ services:
 #    App\Controller\:
 #        resource: '../src/Controller'
 #        tags: ['controller.service_arguments']
+#    calendar_command:
+#      class: App\Calendar\UI\Console\Calendar
+#      tags: ['console.command']
+
+    calendar_identity_service:
+       class: App\Calendar\Domain\Service\CalendarIdentityService
+       arguments:
+         - "@calendar_repository"
+
+#    calendar_repository:
+#       class: Doctrine\ORM\EntityRepository
+#       factory: ["@doctrine.orm.default_entity_manager", getRepository]
+#       arguments: "App\Calendar\Infrastructure\Persistence\ORM\Doctrine\Repository\ORMCalendarRepository"
+
+    calendar_repository:
+      class: App\Calendar\Infrastructure\Persistence\ORM\Doctrine\Repository\ORMCalendarRepository
+      arguments:
+        - "@doctrine.orm.entity_manager"
+
+    calendar_event_repository:
+      class: App\Calendar\Infrastructure\Persistence\ORM\Doctrine\Repository\ORMCalendarEventRepository
+      arguments:
+        - "@doctrine.orm.entity_manager"
+
+#    calendar_repository:
+#      class: App\Calendar\Infrastructure\Persistence\ORM\Doctrine\Repository\ORMCalendarRepository
+#
+#    calendar_event_repository:
+#      class: App\Calendar\Infrastructure\Persistence\ORM\Doctrine\Repository\ORMCalendarEventRepository
+
+
+    calendar_application_service:
+      class: App\Calendar\Application\CalendarApplicationService
+      arguments:
+        - "@calendar_repository"
+        - "@calendar_identity_service"
+        - "@calendar_event_repository"
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

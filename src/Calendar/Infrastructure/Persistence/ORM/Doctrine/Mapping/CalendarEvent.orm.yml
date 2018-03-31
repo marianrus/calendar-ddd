@@ -1,8 +1,8 @@
-App\Calendar\Domain\Model\Event:
+App\Calendar\Domain\Model\CalendarEvent:
   type: entity
-  table: events
+  table: calendar_events
   id:
-    eventId:
+    calendarEventId:
       type: uuid_binary
       column: id
   fields:
@@ -21,7 +21,7 @@ App\Calendar\Domain\Model\Event:
       cascade: ["all"]
       targetEntity: App\Calendar\Domain\Model\Calendar
       joinTable:
-        name: events
+        name: calendar
         joinColumns:
           calendarId:
             referecedColumnName: id

@@ -5,7 +5,6 @@ App\Calendar\Domain\Model\Calendar:
     calendarId:
       column: id
       type: uuid_binary
-  repositoryClass: App\Calendar\Domain\Repository\CalendarRepository
   fields:
     name:
       type: string
