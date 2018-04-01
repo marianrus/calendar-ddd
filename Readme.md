@@ -1,10 +1,10 @@
 
-Calendar APP
+# Calendar Application using DDD # 
 
 The entire application runs in docker containers.
 In order to start the application the following command must be ran from the root folder
 
-`make up && make db`
+`make up && make db && make install`
 
 the applications will be accessible in `http::localhost:8888`
 
@@ -21,12 +21,9 @@ The following endpoints are accessible through REST Endpoints.
  -H 'Content-Type: application/json' \
  -H 'Postman-Token: 9123745f-dde9-4eaf-a080-c529d7e06928' \
  -d '{
-
 "name": "calendar name",
 "description": "calendar description"
 }'`
-
-
 
 
 **_Schedule an calendar event in a given calendar._**
@@ -61,6 +58,8 @@ The following endpoints are accessible through REST Endpoints.
 	"comment": "a comment"
 }'
 `
+
+
 **_Modify a given event_**
 
 `curl -X PUT \
