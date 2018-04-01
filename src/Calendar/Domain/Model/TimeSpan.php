@@ -20,10 +20,10 @@ final class TimeSpan
 
     /**
      * TimeSpan constructor.
-     * @param DateTime $begins
-     * @param DateTime $ends
+     * @param \DateTimeImmutable $begins
+     * @param \DateTimeImmutable $ends
      */
-    public function __construct (DateTime $begins, DateTime $ends)
+    public function __construct (\DateTimeImmutable $begins, \DateTimeImmutable $ends)
     {
         $this->assertCorrectTimeSpan($begins, $ends);
         $this->begins = $begins;
@@ -47,14 +47,14 @@ final class TimeSpan
     }
 
     /**
-     * @param DateTime $begins
-     * @param DateTime $ends
+     * @param \DateTimeImmutable $begins
+     * @param \DateTimeImmutable $ends
      */
-    private function assertCorrectTimeSpan(DateTime $begins, DateTime $ends)
+    private function assertCorrectTimeSpan(\DateTimeImmutable $begins, \DateTimeImmutable $ends)
     {
         Assert::notNull($begins, 'The value for begins not provided');
         Assert::notNull($ends, 'The value for ends not provided');
 
-        Assert::false($begins->comesAfter($ends));
+        Assert::false($begins > $ends, 'The dates overlap');
     }
 }
