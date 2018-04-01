@@ -9,6 +9,11 @@ security:
         main:
             anonymous: true
 
+        doc_area:
+            pattern:    ^/api/doc
+            stateless: true
+            security: false
+
             # activate different ways to authenticate
 
             # http_basic: true

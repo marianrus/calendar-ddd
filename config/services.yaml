@@ -61,5 +61,14 @@ services:
         - "@calendar_identity_service"
         - "@calendar_event_repository"
 
+    App\Calendar\UI\HTTP\:
+        resource: '../src/Calendar/UI/HTTP/*'
+        tags: [ 'controller.service_arguments' ]
+
+#    calendar_controller:
+#      class: App\Calendar\UI\HTTP\Controller\CalendarController
+#      argumnts:
+
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

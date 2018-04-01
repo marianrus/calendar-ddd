@@ -1,0 +1,13 @@
+jms_serializer:
+    visitors:
+        xml:
+            format_output: '%kernel.debug%'
+    metadata:
+        auto_detection: true
+        directories:
+            Calendar:
+                namespace_prefix: "Calendar\\Domain\\Model\\Calendar"
+                path: "%kernel.root_dir%/../src/Calendar/Infrastructure/Serializer"
+#            another-name:
+#                namespace_prefix: "My\\BarBundle"
+#                path: "@MyBarBundle/Resources/config/serializer"
