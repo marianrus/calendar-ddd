@@ -19,5 +19,4 @@ sh: ## gets inside a container, use 's' variable to select a service. make s=php
 db: ## recreate database
 		docker-compose exec php sh -lc './bin/console d:d:d --force'
 		docker-compose exec php sh -lc './bin/console d:d:c'
-		docker-compose exec php sh -lc './bin/console d:m:m -n'
 		docker-compose exec php sh -lc './bin/console doctrine:schema:create'

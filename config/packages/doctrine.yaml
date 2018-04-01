@@ -26,9 +26,7 @@ doctrine:
             collate: utf8mb4_unicode_ci
 
         types:
-          uuid_binary: Ramsey\Uuid\Doctrine\UuidBinaryType
-        mapping_types:
-          uuid_binary: binary
+          uuid: Ramsey\Uuid\Doctrine\UuidType
 
         # With Symfony 3.3, remove the `resolve:` prefix
 #        url: '%env(resolve:DATABASE_URL)%'

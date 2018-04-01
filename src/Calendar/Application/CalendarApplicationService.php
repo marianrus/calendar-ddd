@@ -4,10 +4,14 @@ namespace App\Calendar\Application;
 
 
 use App\Calendar\Domain\Model\Calendar;
+use App\Calendar\Domain\Model\CalendarEventId;
 use App\Calendar\Domain\Model\CalendarId;
 use App\Calendar\Domain\Model\TimeSpan;
+use App\Calendar\Domain\Repository\CalendarEventRepository;
 use App\Calendar\Domain\Repository\CalendarRepository;
 use App\Calendar\Domain\Service\CalendarIdentityService;
+use Broadway\Domain\DateTime;
+use Symfony\Component\VarDumper\VarDumper;
 
 class CalendarApplicationService
 {
@@ -18,17 +22,27 @@ class CalendarApplicationService
 
     private $calendarIdentityService;
 
+    private $calendarEventRepository;
+
     /**
      * CalendarApplicationService constructor.
      * @param CalendarRepository $calendarRepository
      * @param CalendarIdentityService $calendarIdentityService
+     * @param CalendarEventRepository $calendarEventRepository
      */
     public function __construct(
         CalendarRepository $calendarRepository,
-        CalendarIdentityService $calendarIdentityService
+        CalendarIdentityService $calendarIdentityService,
+        CalendarEventRepository $calendarEventRepository
     ){
         $this->calendarRepository = $calendarRepository;
         $this->calendarIdentityService = $calendarIdentityService;
+        $this->calendarEventRepository = $calendarEventRepository;
+    }
+
+    public function getAll()
+    {
+        return $this->calendarRepository->getAll();
     }
 
     /**
@@ -54,27 +68,35 @@ class CalendarApplicationService
     /**
      * @param $name
      * @param $description
+     * @return Calendar
      */
-    public function createCalendar($name, $description)
+    public function createCalendar($name, $description) : Calendar
     {
         $calendar = Calendar::create(
             $this->calendarRepository->nextIdentity(),
             $name,
             $description
         );
-
         $this->calendarRepository->save($calendar);
+
+        return $calendar;
     }
 
     /**
-     * @param $calendarId
+     * @param CalendarId $calendarId
+     * @param $description
+     * @param $location
+     * @param \DateTimeImmutable $timeSpanBegin
+     * @param \DateTimeImmutable $timeSpanEnd
+     * @param $comment
+     * @return \App\Calendar\Domain\Model\CalendarEvent
      */
     public function scheduleCalendarEvent(
         CalendarId $calendarId,
         $description,
         $location,
-        \DateTime $timeSpanBegin,
-        \DateTimeInterface $timeSpanEnd,
+        \DateTimeImmutable $timeSpanBegin,
+        \DateTimeImmutable $timeSpanEnd,
         $comment
     ){
         $calendar = $this->calendarRepository->getById($calendarId);
@@ -86,5 +108,8 @@ class CalendarApplicationService
             new TimeSpan($timeSpanBegin, $timeSpanEnd),
             $comment
         );
+
+        $this->calendarEventRepository->save($calendarEvent);
+        return $calendarEvent;
     }
 }

@@ -6,6 +6,7 @@
         "ext-iconv": "*",
         "broadway/broadway": "^2.0",
         "buttercup/protects": "dev-master",
+        "carbondate/carbon": "^1.23",
         "carlosbuenosvinos/ddd": "^1.6",
         "ramsey/uuid": "^3.4",
         "ramsey/uuid-doctrine": "^1.4",

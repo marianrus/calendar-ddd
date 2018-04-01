@@ -4,7 +4,7 @@ App\Calendar\Domain\Model\Calendar:
   id:
     calendarId:
       column: id
-      type: uuid_binary
+      type: uuid
   fields:
     name:
       type: string
