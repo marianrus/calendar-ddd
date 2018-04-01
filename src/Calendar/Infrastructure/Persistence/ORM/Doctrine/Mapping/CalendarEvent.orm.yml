@@ -3,7 +3,7 @@ App\Calendar\Domain\Model\CalendarEvent:
   table: calendar_events
   id:
     id:
-      type: uuid
+      type: calendarEventIdType
       column: id
   fields:
     description:

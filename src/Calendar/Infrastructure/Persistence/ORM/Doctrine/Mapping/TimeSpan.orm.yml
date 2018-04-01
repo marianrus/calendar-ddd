@@ -2,8 +2,8 @@ App\Calendar\Domain\Model\TimeSpan:
   type: embeddable
   fields:
     begins:
-      type: datetime
+      type: datetime_immutable
       column: begins
     ends:
-      type: datetime
+      type: datetime_immutable
       column: ends

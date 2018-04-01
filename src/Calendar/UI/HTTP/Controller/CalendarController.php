@@ -89,19 +89,4 @@ class CalendarController
     }
 
 
-    /**
-     *
-     * @Route(methods={"PUT"}, path="/calendar/{calendarId}")
-     * @param Request $request
-     * @param string $calendarId
-     */
-    public function changeCalendar($calendarId, Request $request)
-    {
-
-    }
-
-    public function removeCalendar()
-    {
-
-    }
 }

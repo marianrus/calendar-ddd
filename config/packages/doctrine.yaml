@@ -28,6 +28,7 @@ doctrine:
         types:
           uuid: Ramsey\Uuid\Doctrine\UuidType
           calendarId: App\Calendar\Infrastructure\Persistence\ORM\Doctrine\Types\CalendarIdType
+          calendarEventIdType: App\Calendar\Infrastructure\Persistence\ORM\Doctrine\Types\CalendarEventIdType
 
         # With Symfony 3.3, remove the `resolve:` prefix
 #        url: '%env(resolve:DATABASE_URL)%'

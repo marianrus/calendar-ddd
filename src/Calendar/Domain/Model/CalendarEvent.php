@@ -2,8 +2,6 @@
 
 namespace App\Calendar\Domain\Model;
 
-use App\Calendar\Domain\Service\CalendarIdentityService;
-use Symfony\Component\VarDumper\VarDumper;
 use Webmozart\Assert\Assert;
 
 class CalendarEvent

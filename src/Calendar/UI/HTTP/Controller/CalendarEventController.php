@@ -7,17 +7,22 @@ use App\Calendar\Application\CalendarApplicationService;
 use App\Calendar\Application\CalendarEventApplicationService;
 use App\Calendar\Application\Exception\CalendarEventNotFoundException;
 use App\Calendar\Application\Exception\CalendarNotFoundException;
+use App\Calendar\Application\Representation\CalendarEventListRepresentation;
 use App\Calendar\Application\Representation\CalendarEventRepresentation;
+use App\Calendar\Application\Representation\ErrorRepresentation;
 use App\Calendar\Domain\Model\CalendarEventId;
 use App\Calendar\Domain\Model\CalendarId;
 use App\Calendar\Domain\Repository\CalendarEventRepository;
+use App\Calendar\UI\Console\Calendar;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use JMS\Serializer\SerializerInterface;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Security;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Nelmio\ApiDocBundle\Annotation\S;
+use Symfony\Component\VarDumper\VarDumper;
 
 class CalendarEventController
 {
@@ -61,15 +66,31 @@ class CalendarEventController
     }
 
     /**
-     * @SWG\Post(
+     * @Rest\Route(
      *     path="/calendar/{calendarId}/events",
-     *     summary="Retrieves the event list associated with a calendar."
-     *     @SWG\Response(
-     *         response=200,
-     *         description="Success",
-     *         @SWG\Schema(ref="#/definitions/MoviesViewDTO"),
-     *     )
+     *     methods={"GET"}
      * )
+     *
+     * @param $calendarId
+     * @return Response
+     */
+    public function getCalendarEvents($calendarId)
+    {
+        return new Response(
+            $this->serializer->serialize(
+                 new CalendarEventListRepresentation(
+                     $this->calendarEventRepository->getByCalendarId(
+                         CalendarId::fromString($calendarId)
+                     )
+                 ),
+                'json'
+            ),
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     * @SWG\Post()
      *
      * @Rest\Route(
      *     path="/calendar/{calendarId}/events",
@@ -130,7 +151,7 @@ class CalendarEventController
                 Response::HTTP_OK
             );
         }catch(CalendarNotFoundException $ex) {
-            throw new HttpException(404, $ex->getMessage());
+            throw new HttpException(Response::HTTP_NOT_FOUND, $ex->getMessage());
         }catch(\InvalidArgumentException $e) {
             throw new HttpException(400, $e->getMessage());
         } catch(\Exception $e) {
@@ -139,18 +160,40 @@ class CalendarEventController
     }
 
     /**
+     * @Rest\Route(
+     *     path="/calendar/{calendarId}/events/{calendarEventId}",
+     *     methods={"DELETE"}
+     * )
      *
      * @param $calendarEventId
-     * @throws \HttpException
-     *
+     * @return string|Response
      */
     public function cancelEvent($calendarEventId)
     {
         try{
-            $this->calendarEventApplicationService->cancelByCalendarEvent($calendarEventId);
+            $this->calendarEventApplicationService->cancelByCalendarEvent(CalendarEventId::fromString($calendarEventId));
+
+            return new Response([], Response::HTTP_NO_CONTENT);
         }catch(CalendarEventNotFoundException $e){
-            throw new \HttpException($e->getMessage(), Response::HTTP_NO_CONTENT);
+            return $this->getErrorMessage($e->getMessage(), Response::HTTP_NOT_FOUND);
         }
+    }
+
+    /**
+     * @param $message
+     * @param $description
+     * @return Response
+     */
+    private function getErrorMessage($message, $description)
+    {
+        return new Response($this->serializer->serialize(
+                    new ErrorRepresentation(
+                        $message,
+                        $description
+                    ), 'json'
+                ),
+            Response::HTTP_NOT_FOUND
+        );
     }
 }
 

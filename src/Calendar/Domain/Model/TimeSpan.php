@@ -3,7 +3,6 @@
 namespace App\Calendar\Domain\Model;
 
 
-use Broadway\Domain\DateTime;
 use Webmozart\Assert\Assert;
 
 final class TimeSpan
@@ -11,12 +10,12 @@ final class TimeSpan
     const FORMAT_STRING = 'Y-m-d\TH:i:s';
 
     /**
-     * @var DateTime
+     * @var \DateTimeImmutable
      */
     private $begins;
 
     /**
-     * @var DateTime
+     * @var \DateTimeImmutable
      */
     private $ends;
 

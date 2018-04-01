@@ -5,6 +5,8 @@ namespace App\Calendar\Infrastructure\Persistence\ORM\Doctrine\Repository;
 
 use App\Calendar\Domain\Model\CalendarEvent;
 use App\Calendar\Domain\Model\CalendarEventId;
+use App\Calendar\Domain\Model\CalendarId;
+use App\Calendar\Domain\Model\TimeSpan;
 use App\Calendar\Domain\Repository\CalendarEventRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Ramsey\Uuid\Uuid;
@@ -29,6 +31,25 @@ class ORMCalendarEventRepository implements CalendarEventRepository
     {
         $this->em = $entityManager;
         $this->internalRepository = $this->em->getRepository(CalendarEvent::class);
+    }
+
+    /**
+     * @param CalendarId $calendarId
+     * @return mixed
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function getByCalendarId(CalendarId $calendarId)
+    {
+
+        return $this->em->createQueryBuilder()
+            ->select('ce')
+            ->from(CalendarEvent::class, 'ce')
+            ->where('ce.calendar = :calendarId')
+            ->setParameter('calendarId', $calendarId->id())
+            ->orderBy("ce.timeSpan.begins", 'ASC')
+            ->getQuery()
+            ->execute()
+        ;
     }
 
     /**
