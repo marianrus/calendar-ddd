@@ -4,6 +4,7 @@ namespace App\Calendar\Domain\Model;
 
 
 use App\Calendar\Domain\Service\CalendarIdentityService;
+use Symfony\Component\VarDumper\VarDumper;
 use Webmozart\Assert\Assert;
 
 class Calendar
@@ -11,7 +12,7 @@ class Calendar
     /**
      * @var CalendarId
      */
-    private $calendarId;
+    private $id;
 
     /**
      * @var string
@@ -39,7 +40,7 @@ class Calendar
         Assert::notNull($description, 'Description should not be empty');
 
         $aCalendar = new self();
-        $aCalendar->calendarId = $calendarId;
+        $aCalendar->id = $calendarId;
 
         $aCalendar->setName($name);
         $aCalendar->setDescription($description);
@@ -75,9 +76,9 @@ class Calendar
     /**
      * @return CalendarId
      */
-    public function getCalendarId (): CalendarId
+    public function getId (): CalendarId
     {
-        return $this->calendarId;
+        return $this->id;
     }
 
     /**

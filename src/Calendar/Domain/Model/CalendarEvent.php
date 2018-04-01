@@ -2,6 +2,8 @@
 
 namespace App\Calendar\Domain\Model;
 
+use App\Calendar\Domain\Service\CalendarIdentityService;
+use Symfony\Component\VarDumper\VarDumper;
 use Webmozart\Assert\Assert;
 
 class CalendarEvent
@@ -9,12 +11,12 @@ class CalendarEvent
     /**
      * @var CalendarEventId
      */
-    private $calendarEventId;
+    private $id;
 
     /**
      * @var Calendar
      */
-    private $calendarId;
+    private $calendar;
 
     /**
      * @var string
@@ -38,7 +40,7 @@ class CalendarEvent
 
     /**
      * @param CalendarEventId $eventId
-     * @param Calendar $calendarId
+     * @param Calendar $calendar
      * @param string $description
      * @param string $location
      * @param TimeSpan $timeSpan
@@ -47,26 +49,135 @@ class CalendarEvent
      */
     public static function create(
         CalendarEventId $eventId,
-        Calendar $calendarId,
+        Calendar $calendar,
         string $description,
         string $location,
         TimeSpan $timeSpan,
         $comment
     ) : CalendarEvent
     {
-        Assert::notEmpty($description);
-
         $event = new self();
-        $event->calendarEventId = $eventId;
-        $event->calendarId = $calendarId;
-        $event->description = $description;
-        $event->timeSpan = $timeSpan;
-        $event->location = $location;
-        $event->comment = $comment;
+        $event->id = $eventId;
+        $event->calendar = $calendar;
+
+        $event->setDescription($description);
+        $event->setLocation($location);
+        $event->setComment($comment);
+        $event->setTimeSpan($timeSpan);
 
         return $event;
     }
 
+    /**
+     * @param $description
+     */
+    private function setDescription($description)
+    {
+        Assert::notNull($description, 'Description should be provided');
+        Assert::notEmpty($description, 'Description should not be empty');
 
+        $this->description = $description;
+    }
+
+    /**
+     * @param $timeSpan
+     */
+    private function setTimeSpan(TimeSpan $timeSpan)
+    {
+        Assert::notNull($timeSpan, 'Time Span should be provided');
+
+        $this->timeSpan = $timeSpan;
+    }
+
+    /**
+     * @param $comment
+     */
+    private function setComment($comment)
+    {
+        Assert::notNull($comment, 'Comment should be provided');
+        Assert::notEmpty($comment, 'Comment should not be empty');
+
+        $this->comment = $comment;
+    }
+
+    /**
+     * @param $location
+     */
+    private function setLocation($location)
+    {
+        Assert::notNull($location, 'Location should be provided');
+        Assert::notEmpty($location, 'Location should not be empty');
+
+        $this->location = $location;
+    }
+
+    /**
+     * @param $description
+     * @param $location
+     * @param TimeSpan $span
+     * @param $comment
+     * @return CalendarEvent
+     */
+    public function reSchedule(
+        $description,
+        $location,
+        TimeSpan $span,
+        $comment
+    ){
+        $this->setDescription($description);
+        $this->setLocation($location);
+        $this->setTimeSpan($span);
+        $this->setComment($comment);
+
+        return $this;
+    }
+
+    /**
+     * @return CalendarEventId
+     */
+    public function getId (): CalendarEventId
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return CalendarId
+     */
+    public function getCalendarId (): CalendarId
+    {
+        return $this->calendar->getId();
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription (): string
+    {
+        return $this->description;
+    }
+
+    /**
+     * @return TimeSpan
+     */
+    public function getTimeSpan (): TimeSpan
+    {
+        return $this->timeSpan;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLocation (): string
+    {
+        return $this->location;
+    }
+
+    /**
+     * @return string
+     */
+    public function getComment (): string
+    {
+        return $this->comment;
+    }
 
 }

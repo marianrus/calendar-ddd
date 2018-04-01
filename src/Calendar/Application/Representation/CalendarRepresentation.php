@@ -28,7 +28,7 @@ class CalendarRepresentation
      */
     public function __construct (Calendar $calendar)
     {
-        $this->id = $calendar->getCalendarId()->toString();
+        $this->id = $calendar->getId()->toString();
         $this->name = $calendar->getName();
         $this->description = $calendar->getDescription();
     }

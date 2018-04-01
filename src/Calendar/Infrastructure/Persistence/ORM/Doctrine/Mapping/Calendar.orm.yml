@@ -2,9 +2,10 @@ App\Calendar\Domain\Model\Calendar:
   type: entity
   table: calendar
   id:
-    calendarId:
+    id:
       column: id
-      type: uuid
+      type: calendarId
+      nullable: false
   fields:
     name:
       type: string

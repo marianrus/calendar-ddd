@@ -12,4 +12,6 @@ interface CalendarEventRepository
     public function nextIdentity() : CalendarEventId;
 
     public function save(CalendarEvent $calendarEvent) : void;
+
+    public function remove(CalendarEvent $calendarEvent) : void;
 }

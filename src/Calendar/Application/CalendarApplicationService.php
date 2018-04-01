@@ -3,6 +3,7 @@
 namespace App\Calendar\Application;
 
 
+use App\Calendar\Application\Exception\CalendarNotFoundException;
 use App\Calendar\Domain\Model\Calendar;
 use App\Calendar\Domain\Model\CalendarId;
 use App\Calendar\Domain\Model\TimeSpan;
@@ -63,11 +64,26 @@ class CalendarApplicationService
 
     /**
      * @param $calendarId
+     * @return Calendar
+     * @throws CalendarNotFoundException
+     */
+    public function getCalendarById($calendarId)
+    {
+        if($calendar = $this->calendarRepository->getById($calendarId)) {
+            return $calendar;
+        }
+
+        throw new CalendarNotFoundException();
+    }
+
+    /**
+     * @param $calendarId
      * @param $rename
+     * @throws CalendarNotFoundException
      */
     public function renameCalendar($calendarId, $rename)
     {
-        $calendar = $this->calendarRepository->getById($calendarId);
+        $calendar = $this->getCalendarById($calendarId);
         $calendar->setName($rename);
     }
 
@@ -96,6 +112,7 @@ class CalendarApplicationService
      * @param \DateTimeImmutable $timeSpanEnd
      * @param $comment
      * @return \App\Calendar\Domain\Model\CalendarEvent
+     * @throws CalendarNotFoundException
      */
     public function scheduleCalendarEvent(
         CalendarId $calendarId,
@@ -105,7 +122,7 @@ class CalendarApplicationService
         \DateTimeImmutable $timeSpanEnd,
         $comment
     ){
-        $calendar = $this->calendarRepository->getById($calendarId);
+        $calendar = $this->getCalendarById($calendarId);
 
         $calendarEvent = $calendar->scheduleCalendarEvent(
             $this->calendarIdentityService,
@@ -116,6 +133,7 @@ class CalendarApplicationService
         );
 
         $this->calendarEventRepository->save($calendarEvent);
+
         return $calendarEvent;
     }
 }

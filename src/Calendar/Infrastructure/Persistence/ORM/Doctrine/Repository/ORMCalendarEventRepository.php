@@ -58,4 +58,12 @@ class ORMCalendarEventRepository implements CalendarEventRepository
         $this->em->persist($calendarEvent);
         $this->em->flush();
     }
+
+    /**
+     * @param CalendarEvent $calendarEvent
+     */
+    public function remove (CalendarEvent $calendarEvent): void
+    {
+        $this->em->remove($calendarEvent);
+    }
 }

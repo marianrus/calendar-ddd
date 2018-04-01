@@ -2,7 +2,7 @@ App\Calendar\Domain\Model\CalendarEvent:
   type: entity
   table: calendar_events
   id:
-    calendarEventId:
+    id:
       type: uuid
       column: id
   fields:
@@ -15,14 +15,15 @@ App\Calendar\Domain\Model\CalendarEvent:
   embedded:
     timeSpan:
       class: App\Calendar\Domain\Model\TimeSpan
+
   manyToOne:
-    calendarId:
-      orphanRemoval: true
-      cascade: ["all"]
+    calendar:
       targetEntity: App\Calendar\Domain\Model\Calendar
-      joinTable:
-        name: calendar
-        joinColumns:
-          calendarId:
-            referecedColumnName: id
+      joinColumn:
+        name: calendar_id
+        referencedColumnName: id
+        nullable: false
+        onDelete: CASCADE
+        cascade:
+          - all
 

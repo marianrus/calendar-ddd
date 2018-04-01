@@ -8,6 +8,8 @@ use Webmozart\Assert\Assert;
 
 final class TimeSpan
 {
+    const FORMAT_STRING = 'Y-m-d\TH:i:s';
+
     /**
      * @var DateTime
      */
@@ -31,17 +33,17 @@ final class TimeSpan
     }
 
     /**
-     * @return DateTime
+     * @return \DateTimeImmutable
      */
-    public function getBegins (): DateTime
+    public function getBegins (): \DateTimeImmutable
     {
         return $this->begins;
     }
 
     /**
-     * @return DateTime
+     * @return \DateTimeImmutable
      */
-    public function getEnds (): DateTime
+    public function getEnds (): \DateTimeImmutable
     {
         return $this->ends;
     }
