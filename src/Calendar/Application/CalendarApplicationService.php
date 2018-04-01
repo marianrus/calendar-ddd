@@ -4,14 +4,11 @@ namespace App\Calendar\Application;
 
 
 use App\Calendar\Domain\Model\Calendar;
-use App\Calendar\Domain\Model\CalendarEventId;
 use App\Calendar\Domain\Model\CalendarId;
 use App\Calendar\Domain\Model\TimeSpan;
 use App\Calendar\Domain\Repository\CalendarEventRepository;
 use App\Calendar\Domain\Repository\CalendarRepository;
 use App\Calendar\Domain\Service\CalendarIdentityService;
-use Broadway\Domain\DateTime;
-use Symfony\Component\VarDumper\VarDumper;
 
 class CalendarApplicationService
 {
@@ -20,8 +17,14 @@ class CalendarApplicationService
      */
     private $calendarRepository;
 
+    /**
+     * @var CalendarIdentityService
+     */
     private $calendarIdentityService;
 
+    /**
+     * @var CalendarEventRepository
+     */
     private $calendarEventRepository;
 
     /**
@@ -40,7 +43,10 @@ class CalendarApplicationService
         $this->calendarEventRepository = $calendarEventRepository;
     }
 
-    public function getAll()
+    /**
+     * @return mixed
+     */
+    public function getCalendars()
     {
         return $this->calendarRepository->getAll();
     }
@@ -72,7 +78,7 @@ class CalendarApplicationService
      */
     public function createCalendar($name, $description) : Calendar
     {
-        $calendar = Calendar::create(
+        $calendar = Calendar::createFrom(
             $this->calendarRepository->nextIdentity(),
             $name,
             $description

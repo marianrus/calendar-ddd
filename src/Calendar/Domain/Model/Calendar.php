@@ -29,7 +29,11 @@ class Calendar
      * @param string $description
      * @return Calendar
      */
-    public static function create(CalendarId $calendarId, string $name, string $description) : Calendar
+    public static function createFrom(
+        CalendarId $calendarId,
+        string $name,
+        string $description
+    ) : Calendar
     {
         Assert::notNull($name, 'Name should not be empty');
         Assert::notNull($description, 'Description should not be empty');
@@ -43,6 +47,14 @@ class Calendar
         return $aCalendar;
     }
 
+    /**
+     * @param CalendarIdentityService $calendarIdentityService
+     * @param $description
+     * @param $location
+     * @param TimeSpan $span
+     * @param $comment
+     * @return CalendarEvent
+     */
     public function scheduleCalendarEvent(
         CalendarIdentityService $calendarIdentityService,
         $description,
@@ -52,7 +64,7 @@ class Calendar
     ){
         return CalendarEvent::create(
             $calendarIdentityService->nextCalendarEventId(),
-            $this->getCalendarId(),
+            $this,
             $description,
             $location,
             $span,
@@ -89,8 +101,8 @@ class Calendar
      */
     public function setName(string $name)
     {
-        Assert::notNull($name, 'rename should be provided');
-        Assert::notEmpty($name, 'rename should be provided');
+        Assert::notNull($name, 'name should be provided');
+        Assert::notEmpty($name, 'name should be provided');
 
         $this->name = $name;
     }

@@ -12,7 +12,7 @@ class CalendarEvent
     private $calendarEventId;
 
     /**
-     * @var CalendarId
+     * @var Calendar
      */
     private $calendarId;
 
@@ -38,7 +38,7 @@ class CalendarEvent
 
     /**
      * @param CalendarEventId $eventId
-     * @param CalendarId $calendarId
+     * @param Calendar $calendarId
      * @param string $description
      * @param string $location
      * @param TimeSpan $timeSpan
@@ -47,7 +47,7 @@ class CalendarEvent
      */
     public static function create(
         CalendarEventId $eventId,
-        CalendarId $calendarId,
+        Calendar $calendarId,
         string $description,
         string $location,
         TimeSpan $timeSpan,
@@ -55,8 +55,7 @@ class CalendarEvent
     ) : CalendarEvent
     {
         Assert::notEmpty($description);
-        Assert::maxLength(100, 'Description length must not exceed 100');
-        
+
         $event = new self();
         $event->calendarEventId = $eventId;
         $event->calendarId = $calendarId;
