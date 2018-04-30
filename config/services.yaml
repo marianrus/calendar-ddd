@@ -38,6 +38,19 @@ services:
         - "@calendar_identity_service"
         - "@calendar_event_repository"
 
+    infrastructure.validator:
+      class: App\Calendar\Infrastructure\Validator
+      arguments:
+        - "@validator"
+
+    application.event_dispatcher:
+      class: EventDispa
+
+    command_handler:
+      class: App\Calendar\Application\CommandHandler
+      arguments:
+        - "@infrastructure.validator"
+
     App\Calendar\UI\HTTP\:
         resource: '../src/Calendar/UI/HTTP/*'
         tags: [ 'controller.service_arguments' ]
